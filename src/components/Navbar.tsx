@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { ZetosLogo } from './ZetosLogo';
 import { LanguageSwitcher } from './LanguageSwitcher';
-import { Menu, X, ArrowUpRight, Sparkles, MessageSquare } from 'lucide-react';
+import { Menu, X, ArrowUpRight, MessageSquare } from 'lucide-react';
 
 interface NavbarProps {
   onOpenContactModal: () => void;
@@ -18,8 +18,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContactModal }) => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      const sections = ['top', 'offres', 'portfolio', 'simulateur', 'philosophie', 'faq'];
-      const scrollPosition = window.scrollY + 200;
+      const sections = ['top', 'proof', 'journey', 'offres', 'portfolio', 'services', 'ia', 'philosophie', 'simulateur', 'faq'];
+      const scrollPosition = window.scrollY + 220;
 
       for (const section of sections) {
         const el = document.getElementById(section);
@@ -39,12 +39,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContactModal }) => {
   }, []);
 
   const navLinks = [
-    { id: 'top', label: t('Accueil', 'Home') },
-    { id: 'offres', label: t('Nos Offres', 'Our Offers') },
-    { id: 'portfolio', label: t('Réalisations', 'Portfolio') },
-    { id: 'simulateur', label: t('Simulateur', 'Estimator') },
-    { id: 'philosophie', label: t('Philosophie', 'Philosophy') },
-    { id: 'faq', label: t('FAQ', 'FAQ') }
+    { id: 'journey', label: t('Méthode', 'Method') },
+    { id: 'offres', label: t('Offres', 'Offers') },
+    { id: 'portfolio', label: t('Portfolio', 'Work') },
+    { id: 'services', label: t('Expertise', 'Services') },
+    { id: 'ia', label: t('IA & Agents', 'AI & Agents') },
+    { id: 'philosophie', label: t('Fondateurs', 'Founders') },
+    { id: 'simulateur', label: t('Simulateur', 'Estimator') }
   ];
 
   const handleNavClick = (id: string) => {
@@ -60,7 +61,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContactModal }) => {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? 'bg-[#050308]/85 backdrop-blur-xl border-b border-[#8a2be2]/20 py-3 shadow-[0_10px_30px_rgba(0,0,0,0.7)]'
+            ? 'bg-[#050308]/90 backdrop-blur-xl border-b border-[#8a2be2]/25 py-3 shadow-[0_10px_30px_rgba(0,0,0,0.8)]'
             : 'bg-transparent py-5 border-b border-transparent'
         }`}
       >
@@ -79,7 +80,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContactModal }) => {
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1 lg:gap-2 px-4 py-1.5 rounded-full bg-[#0d0915]/60 border border-white/5 backdrop-blur-md">
+          <nav className="hidden md:flex items-center gap-1 lg:gap-1.5 px-3 py-1.5 rounded-full bg-[#0d0915]/75 border border-white/10 backdrop-blur-md shadow-lg">
             {navLinks.map((link) => {
               const isActive = activeSection === link.id;
               return (
@@ -90,14 +91,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContactModal }) => {
                     e.preventDefault();
                     handleNavClick(link.id);
                   }}
-                  className={`relative px-3.5 py-1.5 text-xs lg:text-sm font-medium transition-all duration-300 rounded-full ${
+                  className={`relative px-3 py-1.5 text-xs font-semibold transition-all duration-300 rounded-full cursor-pointer ${
                     isActive
-                      ? 'text-white font-semibold'
+                      ? 'text-white'
                       : 'text-[#9890a8] hover:text-white'
                   }`}
                 >
                   {isActive && (
-                    <span className="absolute inset-0 rounded-full bg-[#8a2be2]/20 border border-[#8a2be2]/40 -z-10 shadow-[0_0_12px_rgba(138,43,226,0.3)]" />
+                    <span className="absolute inset-0 rounded-full bg-[#8a2be2]/30 border border-[#8a2be2]/50 -z-10 shadow-[0_0_12px_rgba(138,43,226,0.4)]" />
                   )}
                   {link.label}
                 </a>
@@ -106,34 +107,28 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContactModal }) => {
           </nav>
 
           {/* Right Action Bar */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-3.5">
             {/* Language Switcher */}
             <LanguageSwitcher />
-
-            {/* CII Badge Pill */}
-            <div className="hidden lg:flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#8a2be2]/10 border border-[#8a2be2]/30 text-[11px] font-bold text-[#c084fc]">
-              <Sparkles className="w-3.5 h-3.5 text-[#a855f7]" />
-              <span>{t('Agréé CII (-20%)', 'CII Accredited (-20%)')}</span>
-            </div>
 
             {/* Primary CTA */}
             <button
               type="button"
               onClick={onOpenContactModal}
-              className="btn-primary text-xs lg:text-sm py-2 px-5 group"
+              className="btn-primary text-xs lg:text-sm py-2 px-5 group cursor-pointer"
             >
-              <span>{t('Parlons de votre projet', "Let's talk")}</span>
+              <span>{t('Lancer votre projet', 'Launch project')}</span>
               <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </button>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex md:hidden items-center gap-3">
+          <div className="flex md:hidden items-center gap-2.5">
             <LanguageSwitcher />
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2.5 rounded-xl bg-[#120a20] border border-white/10 text-[#dedae9] hover:text-white hover:border-[#8a2be2]/50 transition-colors"
+              className="p-2.5 rounded-xl bg-[#120a20] border border-white/10 text-[#dedae9] hover:text-white hover:border-[#8a2be2]/50 transition-colors cursor-pointer"
               aria-label={mobileMenuOpen ? 'Fermer menu' : 'Ouvrir menu'}
               aria-expanded={mobileMenuOpen}
             >
@@ -145,13 +140,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContactModal }) => {
 
       {/* Mobile Drawer Overlay */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-[#050308]/95 backdrop-blur-2xl md:hidden flex flex-col justify-between pt-24 pb-8 px-6 animate-fade-in">
-          <div className="flex flex-col gap-3">
-            <div className="flex items-center justify-between pb-4 border-b border-white/10">
+        <div className="fixed inset-0 z-40 bg-[#050308]/98 backdrop-blur-2xl md:hidden flex flex-col justify-between pt-24 pb-8 px-6 animate-fade-in">
+          <div className="flex flex-col gap-2.5">
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <span className="text-xs uppercase tracking-widest text-[#9890a8] font-bold">
                 {t('Navigation', 'Menu')}
               </span>
-              <div className="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#8a2be2]/20 text-[10px] font-semibold text-[#c084fc]">
+              <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#8a2be2]/20 text-[10px] font-semibold text-[#c084fc]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse" />
                 <span>{t('Studio Paris', 'Paris Studio')}</span>
               </div>
             </div>
@@ -164,9 +160,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenContactModal }) => {
                   e.preventDefault();
                   handleNavClick(link.id);
                 }}
-                className={`flex items-center justify-between py-3 px-4 rounded-xl text-base font-semibold transition-all ${
+                className={`flex items-center justify-between py-3 px-4 rounded-xl text-sm font-semibold transition-all ${
                   activeSection === link.id
-                    ? 'bg-[#8a2be2]/20 border border-[#8a2be2]/40 text-white'
+                    ? 'bg-[#8a2be2]/25 border border-[#8a2be2]/50 text-white'
                     : 'text-[#dedae9] hover:bg-white/5'
                 }`}
               >

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import type { CaseStudy } from '../types';
-import { X, ArrowUpRight, CheckCircle2, Code2, Sparkles } from 'lucide-react';
+import { X, ArrowUpRight, CheckCircle2, Code2, AlertCircle, Check, Quote } from 'lucide-react';
 
 interface CaseStudyModalProps {
   project: CaseStudy | null;
@@ -33,9 +33,9 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
   if (!project) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/80 backdrop-blur-xl animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/85 backdrop-blur-xl animate-fade-in">
       <div
-        className="relative w-full max-w-3xl rounded-3xl bg-[#0c0816] border border-[#8a2be2]/40 shadow-[0_25px_80px_rgba(0,0,0,0.9)] overflow-hidden my-8"
+        className="relative w-full max-w-3xl rounded-3xl bg-[#0c0816] border border-[#8a2be2]/40 shadow-[0_25px_80px_rgba(0,0,0,0.95)] overflow-hidden my-8"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top ambient glow */}
@@ -45,12 +45,17 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
         <div className="relative p-6 sm:p-8 border-b border-white/10 flex items-start justify-between">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="px-3 py-1 rounded-full bg-[#8a2be2]/20 border border-[#8a2be2]/40 text-xs font-bold text-[#c084fc] uppercase">
+              <span className="px-3 py-1 rounded-full bg-[#8a2be2]/20 border border-[#8a2be2]/40 text-xs font-mono font-bold text-[#c084fc] uppercase">
                 {project.badge}
               </span>
               <span className="text-xs text-[#9890a8] font-semibold">
                 {language === 'fr' ? project.category : project.categoryEn}
               </span>
+              {project.isInternalProduct && (
+                <span className="px-2.5 py-0.5 rounded-full bg-[#10b981]/15 border border-[#10b981]/30 text-[10px] font-mono font-bold text-[#34d399]">
+                  PRODUIT ZETOS
+                </span>
+              )}
             </div>
             <h2 className="text-2xl sm:text-4xl font-black font-heading text-white">
               {project.title}
@@ -60,7 +65,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="p-2.5 rounded-full bg-white/5 border border-white/10 text-[#dedae9] hover:text-white hover:bg-white/10 hover:border-[#8a2be2]/50 transition-colors"
+            className="p-2.5 rounded-full bg-white/5 border border-white/10 text-[#dedae9] hover:text-white hover:bg-white/10 hover:border-[#8a2be2]/50 transition-colors cursor-pointer"
             aria-label="Fermer"
           >
             <X className="w-5 h-5" />
@@ -68,7 +73,7 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
         </div>
 
         {/* Modal Content Body */}
-        <div className="p-6 sm:p-8 space-y-8 max-h-[75vh] overflow-y-auto">
+        <div className="p-6 sm:p-8 space-y-6 max-h-[75vh] overflow-y-auto">
           {/* Key Metrics Row */}
           <div className="grid grid-cols-3 gap-3 sm:gap-4 p-4 rounded-2xl bg-[#140b24] border border-white/5">
             {project.metrics.map((m, idx) => (
@@ -83,16 +88,41 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
             ))}
           </div>
 
-          {/* Detailed Story & Challenge */}
-          <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-[#c084fc] mb-3 flex items-center gap-2">
-              <Sparkles className="w-4 h-4" />
-              <span>{t('Contexte & Réalisation', 'Overview & Execution')}</span>
-            </h3>
-            <p className="text-sm sm:text-base text-[#dedae9] leading-relaxed">
-              {language === 'fr' ? project.description : project.descriptionEn}
-            </p>
+          {/* Problem & Solution Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="p-4 rounded-2xl bg-[#12081c] border border-white/5">
+              <div className="flex items-center gap-2 text-xs font-bold text-[#f87171] uppercase tracking-wider mb-2">
+                <AlertCircle className="w-4 h-4" />
+                <span>{t('Problème critique', 'Core Problem')}</span>
+              </div>
+              <p className="text-xs sm:text-sm text-[#dedae9] leading-relaxed">
+                {language === 'fr' ? project.problem : project.problemEn}
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-[#12081c] border border-white/5">
+              <div className="flex items-center gap-2 text-xs font-bold text-[#34d399] uppercase tracking-wider mb-2">
+                <Check className="w-4 h-4" />
+                <span>{t('Solution Zetos', 'Zetos Solution')}</span>
+              </div>
+              <p className="text-xs sm:text-sm text-[#dedae9] leading-relaxed">
+                {language === 'fr' ? project.solution : project.solutionEn}
+              </p>
+            </div>
           </div>
+
+          {/* Client Quote if present */}
+          {project.quote && (
+            <div className="p-5 rounded-2xl bg-gradient-to-r from-[#180c2e] to-[#0e071a] border border-[#8a2be2]/40 relative">
+              <Quote className="w-6 h-6 text-[#c084fc]/30 absolute top-4 right-4" />
+              <p className="text-xs sm:text-sm text-white italic mb-2 leading-relaxed">
+                “{language === 'fr' ? project.quote : project.quoteEn || project.quote}”
+              </p>
+              <span className="text-[11px] text-[#c084fc] font-bold">
+                — {project.clientRole ? `${project.clientRole}, ` : ''}{project.client}
+              </span>
+            </div>
+          )}
 
           {/* Key Deliverables */}
           <div>

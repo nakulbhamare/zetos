@@ -2,13 +2,18 @@ import React, { useState } from 'react';
 import { LanguageProvider } from './context/LanguageContext';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
+import { TrustStats } from './components/TrustStats';
+import { ZeroToOneJourney } from './components/ZeroToOneJourney';
 import { ThreeWaysToLaunch } from './components/ThreeWaysToLaunch';
-import { CorePillars } from './components/CorePillars';
+import { EntrepreneurStory } from './components/EntrepreneurStory';
 import { PortfolioSection } from './components/PortfolioSection';
-import { ProjectEstimator } from './components/ProjectEstimator';
-import { CapabilitiesBento } from './components/CapabilitiesBento';
+import { WhatWeBuild } from './components/WhatWeBuild';
+import { AISection } from './components/AISection';
+import { InternalProducts } from './components/InternalProducts';
+import { ProductCompanyStatement } from './components/ProductCompanyStatement';
 import { PhilosophySection } from './components/PhilosophySection';
 import { SocialProof } from './components/SocialProof';
+import { ProjectEstimator } from './components/ProjectEstimator';
 import { FAQSection } from './components/FAQSection';
 import { ContactCTA } from './components/ContactCTA';
 import { ContactModal } from './components/ContactModal';
@@ -28,9 +33,9 @@ export const AppContent: React.FC = () => {
     if (projectTitle) {
       setInitialBrief({
         service: `Projet similaire à ${projectTitle}`,
-        stage: 'MVP / Refonte',
-        budget: '5 000€ - 10 000€',
-        timeline: '1 à 2 mois'
+        stage: 'MVP / Accélération',
+        budget: '6 500€ - 15 000€',
+        timeline: '3 à 6 semaines'
       });
     } else {
       setInitialBrief(null);
@@ -46,8 +51,8 @@ export const AppContent: React.FC = () => {
     };
     setInitialBrief({
       service: offerNames[offerId] || 'Offre Zetos',
-      budget: offerId === 'validation' ? '995 €' : '6 500 € - 15 000 €',
-      timeline: offerId === 'validation' ? '5 à 7 jours' : '3 à 6 semaines'
+      budget: offerId === 'validation' ? '995 €' : offerId === 'build' ? '6 500 €' : '4 800 €',
+      timeline: offerId === 'validation' ? '5 à 7 jours' : offerId === 'build' ? '3 à 6 semaines' : '3 à 8 semaines'
     });
     setIsContactModalOpen(true);
   };
@@ -71,45 +76,60 @@ export const AppContent: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#050308] text-[#f5f3f9] selection:bg-[#8a2be2] selection:text-white flex flex-col font-sans">
-      {/* Custom Desktop Cursor */}
+      {/* Custom Desktop Magnetic Cursor */}
       <CustomCursor />
 
-      {/* Navigation Header */}
+      {/* Sticky Frosted Header Navigation */}
       <Navbar onOpenContactModal={() => handleOpenContactModal()} />
 
-      {/* Main Page Flow */}
+      {/* Main Page Narrative Flow */}
       <main className="flex-1">
-        {/* 1. Hero with 3D WebGL Canvas & Client Marquee */}
+        {/* 1. Hero with 3D WebGL Ecosystem, Dominant Statement & Stage Selector */}
         <Hero
           onOpenContactModal={() => handleOpenContactModal()}
           onScrollToSection={handleScrollToSection}
         />
 
-        {/* 2. 3 Launch Offers (Valider, Construire, Scaler) */}
+        {/* 2. Trust & Verified Numbers (100+ Projects, 30+ Devs, 96% NPS, -20% CII) */}
+        <TrustStats />
+
+        {/* 3. The "Zero to One" Interactive Journey (Idea -> Validate -> Design -> Build -> Launch -> Scale) */}
+        <ZeroToOneJourney onOpenContactModal={() => handleOpenContactModal()} />
+
+        {/* 4. Three Ways to Launch (Valider, Construire, Scaler) */}
         <ThreeWaysToLaunch onSelectOffer={handleSelectOffer} />
 
-        {/* 3. Core Capability Pillars (Ce qui nous rend inarrêtables) */}
-        <CorePillars onOpenContactModal={() => handleOpenContactModal()} />
+        {/* 5. Entrepreneurial Story, Kinetic Text & "One Team" Architecture */}
+        <EntrepreneurStory onOpenContactModal={() => handleOpenContactModal()} />
 
-        {/* 4. Portfolio Showcase (Des projets qui comptent & Deep Dive Modals) */}
+        {/* 6. Cinematic Portfolio & Case Studies (Real Zetos projects & Deep Dive Modals) */}
         <PortfolioSection onOpenContactModal={handleOpenContactModal} />
 
-        {/* 5. Interactive Live Scope & Cost Estimator */}
-        <ProjectEstimator onPreloadBrief={handlePreloadBrief} />
+        {/* 7. What We Build — Capabilities & Product Craft (Product, Intelligence, Experience, Long-term) */}
+        <WhatWeBuild onOpenContactModal={() => handleOpenContactModal()} />
 
-        {/* 6. Bento Grid Capabilities (On construit, on maintient, on scale) */}
-        <CapabilitiesBento onOpenContactModal={() => handleOpenContactModal()} />
+        {/* 8. Signature AI Section — Data. Intelligence. Action. & Live Agent Simulator */}
+        <AISection onOpenContactModal={() => handleOpenContactModal()} />
 
-        {/* 7. Philosophy & Founders Section (By entrepreneurs, for entrepreneurs) */}
+        {/* 9. "We Build Our Own Products" (The Patch, Mulink, Tip, Seiki) */}
+        <InternalProducts onOpenContactModal={handleOpenContactModal} />
+
+        {/* 10. The Product Company Brand Statement & Live Status Pipeline */}
+        <ProductCompanyStatement onOpenContactModal={() => handleOpenContactModal()} />
+
+        {/* 11. Founders Section (Anthony Muñoz Cifuentes & Théo Pascard + 5 Principles) */}
         <PhilosophySection />
 
-        {/* 8. Social Proof & Testimonials (Alexandre Darbois @ Humoon + CII) */}
+        {/* 12. Social Proof, Client Quotes (Alexandre Darbois @ Humoon) & Industries Matrix */}
         <SocialProof />
 
-        {/* 9. FAQ Section */}
+        {/* 13. Interactive Live Scope & Cost Estimator */}
+        <ProjectEstimator onPreloadBrief={handlePreloadBrief} />
+
+        {/* 14. FAQ Section (Fixed price, CII tax credit, IP ownership, Paris team) */}
         <FAQSection onOpenContactModal={() => handleOpenContactModal()} />
 
-        {/* 10. Grand Finale Contact CTA */}
+        {/* 15. Grand Finale Contact CTA (Have a product in mind? Convergence) */}
         <ContactCTA onOpenContactModal={() => handleOpenContactModal()} />
       </main>
 
